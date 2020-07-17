@@ -186,14 +186,14 @@ boost::shared_ptr<const typename SimpleActionServer<ActionSpec>::Goal> SimpleAct
   }
 
   // check if we need to send a preempted message for the goal that we're currently pursuing
-  if (isActive() &&
-    current_goal_.getGoal() &&
-    current_goal_ != next_goal_)
-  {
-    current_goal_.setCanceled(
-      Result(),
-      "This goal was canceled because another goal was recieved by the simple action server");
-  }
+  //if (isActive() &&
+  //  current_goal_.getGoal() &&
+  //  current_goal_ != next_goal_)
+  //{
+  //  current_goal_.setCanceled(
+  //    Result(),
+  //    "This goal was canceled because another goal was recieved by the simple action server");
+  //}
 
   ROS_DEBUG_NAMED("actionlib", "Accepting a new goal");
 
@@ -300,11 +300,11 @@ void SimpleActionServer<ActionSpec>::goalCallback(GoalHandle goal)
     (!next_goal_.getGoal() || goal.getGoalID().stamp >= next_goal_.getGoalID().stamp))
   {
     // if next_goal has not been accepted already... its going to get bumped, but we need to let the client know we're preempting
-    if (next_goal_.getGoal() && (!current_goal_.getGoal() || next_goal_ != current_goal_)) {
-      next_goal_.setCanceled(
-        Result(),
-        "This goal was canceled because another goal was recieved by the simple action server");
-    }
+    //if (next_goal_.getGoal() && (!current_goal_.getGoal() || next_goal_ != current_goal_)) {
+    //  next_goal_.setCanceled(
+    //    Result(),
+    //    "This goal was canceled because another goal was recieved by the simple action server");
+    //}
 
     next_goal_ = goal;
     new_goal_ = true;
@@ -326,12 +326,12 @@ void SimpleActionServer<ActionSpec>::goalCallback(GoalHandle goal)
 
     // Trigger runLoop to call execute()
     execute_condition_.notify_all();
-  } else {
+  } /**else {
     // the goal requested has already been preempted by a different goal, so we're not going to execute it
     goal.setCanceled(
       Result(),
       "This goal was canceled because another goal was recieved by the simple action server");
-  }
+  }**/
 }
 
 template<class ActionSpec>
